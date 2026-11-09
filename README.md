@@ -9,21 +9,21 @@ Java · Spring Boot 기반으로 서비스를 기획부터 배포까지 직접 �
 | 구분 | 기술 |
 |---|---|
 | Backend | Java · Spring Boot · Spring Security · JPA · JWT · OAuth2 |
-| Database | MySQL |
+| Database | MySQL · Flyway |
 | Frontend | React · JavaScript |
 | AI | Python · FastAPI · CatBoost |
 | DevOps | Docker · AWS EC2 · Nginx · GitHub Actions |
-| Test · Tool | JUnit · Git |
+| Test · Security | JUnit · JaCoCo (80% CI 게이트) · API 보안 4종 전수 테스트 |
 
 ---
 
 ## 📂 프로젝트
 
-| 프로젝트 | 설명 | 기간 · 인원 | 링크 |
+| 프로젝트 | 설명 | 핵심 엔지니어링 강점 | 링크 |
 |---|---|---|---|
-| **JEJURO**<br>개인 AI 맞춤 여행 | 여행 조건과 취향을 바탕으로 AI가 제주 관광지를 추천하고, 날짜별 일정과 이동 경로까지 계획 | 2026.09.21 ~ 10.09 (약 3주)<br>팀 2명 | [상세](./JEJURO) · [코드](https://github.com/LEEYEWIN/project1) · [서비스](https://jejuro.projectbyhj.site) |
-| **VANITY**<br>나만의 화장대 | 보유 화장품과 피부 기록을 바탕으로 성분을 확인하고, 나에게 맞는 사용 루틴을 관리 | 2026.10.13 ~ 10.20 (약 1주)<br>개인 1명 | [상세](./VANITY) · [코드](https://github.com/hamzzy-oao/mycosmetic) |
-| **JOBNOTE**<br>취업 준비 관리 | 채용 공고 탐색부터 지원 현황, 이력서, 면접 기록까지 취업 준비 과정을 한곳에서 관리 | 2026.10.21 ~ 10.29 (약 1주)<br>개인 1명 | [상세](./JOBNOTE) · [코드](https://github.com/hamzzy-oao/project3) |
+| **JEJURO**<br>개인 AI 맞춤 여행 | AI 제주 관광지 추천 및 동선·일정 최적화 웹 서비스 | • 자동 저장 충돌 방지 (SHA-256 해시 버전 + 비관적 락 409)<br>• 2-opt 알고리즘 기반 방문 순서 최적화<br>• **핵심 API 보안 테스트** (세션·CSRF·무차별 대입 차단·CSV 인젝션 방어) | [상세](./JEJURO) · [코드](https://github.com/LEEYEWIN/project1) · [서비스](https://jejuro.projectbyhj.site) |
+| **VANITY**<br>나만의 화장대 | 화장품 성분 분석 및 피부 맞춤 루틴 관리 서비스 | • 동시 저장 교착 상태 해결 (비관적 락 순서 고정)<br>• OCR 불확실성 4단계 매칭 (EXACT→FUZZY)<br>• **보안 4종 전체 전수 검증** (401·403·404·200 + DB 무결성 확인) | [상세](./VANITY) · [코드](https://github.com/hamzzy-oao/mycosmetic) |
+| **JOBNOTE**<br>취업 준비 관리 | 채용 공고 탐색부터 지원 현황·이력서 통합 관리 서비스 | • 채용 사이트 구조 변경 '0건' 조용한 실패 감지<br>• 외부 API 지연 없는 선응답 비동기 데이터 보강<br>• **커버리지 80% CI 게이트** (분기 73%→80% 상향, 80% 미달 시 merge 차단) | [상세](./JOBNOTE) · [코드](https://github.com/hamzzy-oao/project3) |
 
 ---
 
