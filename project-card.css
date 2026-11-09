@@ -1,0 +1,16 @@
+.project-link { display: block; }
+.project-link:focus-visible { outline: 2px solid #F0458F; outline-offset: 5px; }
+.project-card .project-image-jejuro {
+  background: #F7D3E0 url('assets/jejuro-card-cover.png') center / contain no-repeat;
+}
+.project-card .project-image.alternate {
+  background: #fce9ee url('assets/vanity-cover.png') center / contain no-repeat;
+}
+.project-card .project-image.third {
+  background: #b8dff7 url('assets/jobnote-cover.png') center / contain no-repeat;
+}
+@media (hover: hover) {
+  .project-card:hover .project-image.alternate,
+  .project-card:hover .project-image.third { border-radius: 24px; }
+  .project-card:nth-child(2):hover .project-image { transform: translateY(-9px) rotate(-1deg); }
+}
