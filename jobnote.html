@@ -29,7 +29,7 @@
     </div>
     <div class="project-content">
       <div class="intro-callout"><span class="intro-icon" aria-hidden="true">📝</span><p><strong>채용 공고 탐색부터 지원 현황, 이력서, 면접 기록까지 취업 준비 과정을 한곳에서 관리하는 웹 서비스</strong></p></div>
-      <nav class="toc" aria-label="목차"><strong>목차</strong><ol><li><a href="#learning-title">💡 내가 이 프로젝트로 알게 된 점</a></li><li><a href="#demo-title">🎬 시연</a></li><li><a href="#architecture-title">🏗 시스템 구성</a></li><li><a href="#stack-title">🛠 기술 스택</a></li><li><a href="#troubleshooting-title">🔥 트러블슈팅</a></li></ol></nav>
+      <nav class="toc" aria-label="목차"><strong>목차</strong><ol><li><a href="#learning-title">💡 내가 이 프로젝트로 알게 된 점</a></li><li><a href="#test-title">🧪 테스트 · 품질</a></li><li><a href="#demo-title">🎬 시연</a></li><li><a href="#architecture-title">🏗 시스템 구성</a></li><li><a href="#stack-title">🛠 기술 스택</a></li><li><a href="#troubleshooting-title">🔥 트러블슈팅</a></li></ol></nav>
       <section aria-labelledby="learning-title">
         <h2 id="learning-title">💡 내가 이 프로젝트로 알게 된 점</h2>
         <div class="learning">
@@ -37,6 +37,14 @@
           <article><h3>2. 응답에 꼭 필요한 것과 나중에 채워도 되는 것을 나눈다</h3><p>공고 정리 결과에 직원 수 · 통근 시간까지 기다리면 외부 API 속도에 화면이 묶인다. 공고 내용은 먼저 저장 · 응답하고, 커밋 후 비동기로 보강하는 구조를 적용했다. 또 “기업을 못 찾음”과 “외부 호출 실패”를 구분해야 실패한 조회를 다시 시도할 수 있다는 점도 알게 됐다.</p></article>
           <article><h3>3. 무중단 배포는 서버뿐 아니라 화면 파일과 DB까지 함께 봐야 한다</h3><p>새 백엔드를 옆에 띄우고 상태를 확인한 뒤 교체해도, 오래된 화면이 지연 로딩하는 파일이 사라지거나 DB 마이그레이션이 구버전과 충돌하면 문제가 생긴다. 직전 버전의 화면 파일(assets) 유지와 마이그레이션 호환성 검사를 두면서 배포를 전체 흐름으로 보게 됐다.</p></article>
           <article><h3>4. 한계를 알고 기록해 두는 것도 설계의 일부다</h3><p>수집 잠금과 조회 진행 상태가 서버 메모리에 있어 재시작 · 다중 서버에서는 보장되지 않고, 현재 워크플로는 테스트와 배포가 병렬이다. 지금 구조가 어디까지 보장하는지 정리해 두니 다음에 무엇을 고쳐야 할지가 분명해졌다.</p></article>
+        </div>
+      </section>
+      <section aria-labelledby="test-title">
+        <h2 id="test-title">🧪 테스트 · 품질</h2>
+        <div class="architecture">
+          <p>• <strong>Service(서비스) 계층 분기 커버리지 80.3% (JaCoCo)</strong></p>
+          <p>• <strong>80% 미만이면 CI가 실패해 PR이 합쳐지지 않음</strong> (GitHub Actions CI 품질 게이트)</p>
+          <p>• <strong>73% → 80%</strong>: PDF 내보내기 · 공고 링크 읽기의 예외 경우를 테스트로 채움</p>
         </div>
       </section>
       <section aria-labelledby="demo-title">
@@ -77,7 +85,7 @@
           <tr><td>Frontend</td><td>React 19 · Vite · React Router 6 · Axios · Phosphor Icons</td><td>공고 · 지원 현황 · 이력서 화면</td></tr>
           <tr><td>Database</td><td>MySQL 8 · Flyway</td><td>서비스 데이터, DB 변경 이력 관리</td></tr>
           <tr><td>문서 · 수집</td><td>Jsoup · PDFBox 3</td><td>채용 공고 파싱, 이력서 PDF 가져오기 · 내보내기</td></tr>
-          <tr><td>테스트 · CI 게이트</td><td>JUnit · Testcontainers (MySQL) · JaCoCo (분기 커버리지 73%→80% CI 게이트) · Vitest</td><td>파서 · 공고 정리 · 인증 · 이력서 테스트, 80% 미달 시 merge 차단</td></tr>
+          <tr><td>테스트 · CI 게이트</td><td>JUnit · Testcontainers (MySQL) · JaCoCo (Service 계층 분기 커버리지 80.3% CI 게이트) · Vitest</td><td>파서 · 공고 정리 · 인증 · 이력서 테스트, 80% 미만 시 PR merge 차단</td></tr>
           <tr><td>Infra</td><td>Docker Compose · Nginx · GitHub Actions</td><td>컨테이너 실행, 무중단 교체 배포</td></tr>
           <tr><td>외부 연동</td><td>카카오 로컬 · ODsay · 국민연금 · DART</td><td>주소 좌표, 대중교통 통근 시간, 기업 직원 수</td></tr>
         </tbody></table></div>
@@ -101,10 +109,10 @@
           <p><strong>해결</strong></p><ol><li>새 백엔드를 기존 백엔드 옆에 띄우고 health 응답을 확인한 뒤 기존 컨테이너 종료</li><li>이전 요청이 끝날 유예 시간을 두고, 프론트 빌드는 새 백엔드 확인 후 공개</li><li>오래된 화면이 지연 로딩하는 파일도 찾을 수 있도록 직전 버전의 화면 파일(assets) 유지</li><li>호환성을 깨뜨릴 수 있는 DB 마이그레이션을 검사하는 CI 단계(<code>check-migrations.sh</code>) 추가</li></ol>
           <p class="result"><strong>결과와 한계:</strong> 일반적인 백엔드 교체 시 중단을 줄임. 다만 MySQL 설정 변경으로 DB 컨테이너를 다시 만들 때는 중단이 생길 수 있고, 테스트와 배포가 병렬이라 테스트 성공 후 배포가 보장되지는 않음 → 다음 단계</p>
         </article>
-        <article class="case"><h3>④ 테스트 분기 커버리지 80% 상향 및 CI 품질 게이트 구축</h3>
+        <article class="case"><h3>④ 테스트 분기 커버리지 80.3% 상향 및 CI 품질 게이트 구축</h3>
           <p><strong>문제:</strong> 채용 공고 수집 파싱 및 다중 지원 상태 변경 등 복잡한 비즈니스 로직에서 예외 분기 누락 시 운영 환경 데이터 정합성 오류 위험</p>
           <p><strong>원인:</strong> 단순 라인 커버리지만으로는 조건문과 예외 처리의 모든 분기(Branch)를 온전히 검증하기 어려움</p>
-          <p><strong>해결</strong></p><ol><li>JaCoCo를 통해 서비스 계층의 테스트 분기 커버리지를 <strong>73%에서 80%로 상향</strong></li><li>엣지 케이스 및 예외 처리(수집 0건, 중복 지원, 유효성 실패 등) 테스트 케이스 집중 보강</li><li>GitHub Actions CI에 <strong>분기 커버리지 80% 미달 시 merge를 차단하는 엄격한 품질 게이트</strong> 적용</li></ol>
+          <p><strong>해결</strong></p><ol><li>JaCoCo를 통해 <strong>Service(서비스) 계층 분기 커버리지 80.3% 달성</strong> (기존 73% → 80.3%)</li><li><strong>73% → 80% 달성 과정</strong>: PDF 내보내기 · 공고 링크 읽기의 예외 경우를 테스트로 채움</li><li>GitHub Actions CI에 <strong>서비스 계층 분기 커버리지 80% 미만이면 CI가 실패해 PR이 합쳐지지 않게 막는 품질 게이트</strong> 적용</li></ol>
           <p class="result"><strong>결과:</strong> 예외 분기 누락으로 인한 잠재 결함 사전 차단 및 코드 품질 기준선 확립</p>
         </article>
       </section>
